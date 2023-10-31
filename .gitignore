@@ -1,3 +1,5 @@
 debug/
 *.pyc
 output/
+data/nyu/
+myven/
