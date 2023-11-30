@@ -14,6 +14,7 @@ from model.hourglass import PoseNet
 from model.resnet_deconv import get_deconv_net
 from model.loss import My_SmoothL1Loss
 from dataloader.nyu_loader import NYU
+from dataloader.hands17_loader import Hands17
 from util.feature_tool import FeatureModule
 from util.eval_tool import EvalUtil
 from util.vis_tool import VisualUtil
@@ -61,6 +62,9 @@ class Trainer(object):
         if self.config.dataset == 'nyu':
             self.trainData = NYU(self.data_dir, 'train', img_size=self.config.img_size, aug_para=self.config.augment_para, cube=self.config.cube)
             self.testData = NYU(self.data_dir, 'test', img_size=self.config.img_size, cube=self.config.cube)
+        elif self.config.dataset == 'hands17':
+            self.trainData = Hands17(self.data_dir, 'train', img_size=self.config.img_size, aug_para=self.config.augment_para, cube=self.config.cube)
+            self.testData = Hands17(self.data_dir, 'test', img_size=self.config.img_size, cube=self.config.cube)
 
         # init optimizer
         if self.config.optimizer == 'adam':
@@ -89,7 +93,7 @@ class Trainer(object):
         if self.config.scheduler == 'auto':
             self.scheduler = ReduceLROnPlateau(self.optimizer, "min", patience=2, min_lr=1e-8)
         elif self.config.scheduler == 'step':
-            self.scheduler = StepLR(self.optimizer, step_size=self.config.step, gamma=0.1, last_epoch=self.best_records['epoch'])
+            self.scheduler = StepLR(self.optimizer, step_size=self.config.step, gamma=0.1, last_epoch=self.best_records['epoch']-1)
 
         for param_group in self.optimizer.param_groups:
             param_group['lr'] = self.config.lr
@@ -232,5 +236,5 @@ if __name__=='__main__':
     from config import opt
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
     trainer = Trainer(opt)
-    trainer.test()
-    # trainer.train()
+    # trainer.test()
+    trainer.train()

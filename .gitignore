@@ -2,4 +2,7 @@ debug/
 *.pyc
 output/
 data/nyu/
+data/hands17/
 myenv/
+nohup.out
+results/
