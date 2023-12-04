@@ -123,7 +123,8 @@ class Trainer(object):
             print_msg("loading model from {}".format(self.config.load_model))
             pth = torch.load(self.config.load_model)
             self.net.load_state_dict(pth["model"])
-            self.optimizer.load_state_dict(pth["optimizer"])
+            if self.config.optimizer == "adam":
+                self.optimizer.load_state_dict(pth["optimizer"])
             if "best_records" in pth:
                 self.best_records = pth["best_records"]
 

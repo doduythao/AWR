@@ -6,3 +6,4 @@ data/hands17/
 myenv/
 nohup.out
 results/
+bone_len.npy
