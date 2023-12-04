@@ -57,3 +57,45 @@ for img, jt_xyz_gt, jt_uvd_gt, center_xyz, M, cube in trainLoader:
 
 bone_lengths = np.array(bone_lengths)
 np.save('bone_len.npy', bone_lengths)
+
+
+# import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
+
+# Load the data from the npy file
+data = np.load('bone_len.npy')
+
+# # Now 'data' contains the contents of the npy file
+# print(data.shape)
+
+# # Create a density plot
+# sns.kdeplot(data[0]/data[1], fill=True, color='skyblue')
+# plt.title('Density Plot of One-Dimensional Data')
+# plt.xlabel('Value')
+# plt.ylabel('Density')
+# plt.show()
+
+regu_ratio = [[ ] for _ in range(10)]
+
+pairs = [(0,1),
+         (1,2),
+         (3,4),
+         (4,5),
+         (6,7),
+         (7,8),
+         (9,10),
+         (10,11),
+         (12,13),
+         (13,14)]
+
+def find_2_lim(data_points):
+    sorted_data = np.sort(data_points)
+    return np.percentile(sorted_data, 0.5), np.percentile(sorted_data, 99.5)
+
+# to find "normal" range of bone ratios!
+for pair in pairs:
+    ratio_data = data[pair[0]]/data[pair[1]]
+    low, high = find_2_lim(ratio_data)
+    print(f'{low}:{high}')    

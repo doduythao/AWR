@@ -39,6 +39,8 @@ class Config(object):
     loss_type = 'MyL1Loss'
     dense_weight = 1.
     coord_weight = 1.
+    angle_w = 1.
+    ratio_w = 1.
     kernel_size = 0.4 # 0.4 for hourglass and 1 for resnet
     lr = 1e-4
     optimizer = 'adam'

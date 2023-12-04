@@ -12,7 +12,7 @@ from torchnet import meter
 
 from model.hourglass import PoseNet
 from model.resnet_deconv import get_deconv_net
-from model.loss import My_SmoothL1Loss, AngleLoss
+from model.loss import My_SmoothL1Loss, AngleLoss, RatioLoss
 from dataloader.nyu_loader import NYU
 from dataloader.hands17_loader import Hands17
 from util.feature_tool import FeatureModule
@@ -115,6 +115,7 @@ class Trainer(object):
         # init loss function
         self.criterion = My_SmoothL1Loss().cuda()
         self.angle_loss = AngleLoss(self.config.dataset).cuda()
+        self.ratio_loss = RatioLoss(self.config.dataset).cuda()
         self.FM = FeatureModule()
         self.best_records = {"epoch": 0, "MPE": 1e10, "AUC": 0}
 
@@ -186,11 +187,12 @@ class Trainer(object):
                         loss_coord = self.config.coord_weight * self.criterion(
                             jt_uvd_pred, jt_uvd_gt
                         )
-                        loss_angle = self.angle_loss(jt_uvd_pred, jt_uvd_gt)
+                        loss_angle = self.config.angle_w * self.angle_loss(jt_uvd_pred, jt_uvd_gt)
+                        loss_ratio = self.config.ratio_w * self.ratio_loss(jt_uvd_pred, jt_uvd_gt)
                         loss_offset = self.config.dense_weight * self.criterion(
                             offset_pred, offset_gt
                         )
-                        loss = loss_coord + loss_offset + loss_angle
+                        loss = loss_coord + loss_offset + loss_angle + loss_ratio
                 else:
                     offset_pred = self.net(input)
                     jt_uvd_pred = self.FM.offset2joint_softmax(

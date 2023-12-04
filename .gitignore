@@ -7,3 +7,4 @@ myenv/
 nohup.out
 results/
 bone_len.npy
+env/
