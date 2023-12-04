@@ -145,9 +145,8 @@ class RatioLoss(torch.nn.Module):
                 torch.zeros_like(x),
                 torch.where(x > max_val, x - max_val, min_val - x),
             )
-            loss_arr.append(l)
-
-        return torch.mean(torch.FloatTensor(loss_arr))
+            loss_arr.append(l.mean())
+        return torch.mean(torch.stack(loss_arr))
 
     def calc_ratio(self, p1, p2, p3):
         # Calculate lengths

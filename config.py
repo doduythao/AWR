@@ -14,17 +14,17 @@ EPOCH = {
     'nyu': 40,
     'icvl': 40,
     'msra': 25,
-    'hands17': 30
+    'hands17': 20
 }
 class Config(object):
     gpu_id = 0
-    exp_id = "nyu_hourglass_e6"
+    exp_id = "hands17_hourglass_e10"
     log_id = "dense"
 
     data_dir = './data'
-    dataset = 'nyu'
+    dataset = 'hands17'
     output_dir = './output/'
-    load_model = './results/best-e2.pth'
+    load_model = './results/hands17_best_e3.pth'
 
     jt_num = JOINT[dataset]
     cube = [300, 300, 300]
@@ -39,7 +39,7 @@ class Config(object):
     loss_type = 'MyL1Loss'
     dense_weight = 1.
     coord_weight = 1.
-    angle_w = 1.
+    angle_w = 0
     ratio_w = 1.
     kernel_size = 0.4 # 0.4 for hourglass and 1 for resnet
     lr = 1e-4

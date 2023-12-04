@@ -187,12 +187,12 @@ class Trainer(object):
                         loss_coord = self.config.coord_weight * self.criterion(
                             jt_uvd_pred, jt_uvd_gt
                         )
-                        loss_angle = self.config.angle_w * self.angle_loss(jt_uvd_pred, jt_uvd_gt)
+                        # loss_angle = self.config.angle_w * self.angle_loss(jt_uvd_pred, jt_uvd_gt)
                         loss_ratio = self.config.ratio_w * self.ratio_loss(jt_uvd_pred, jt_uvd_gt)
                         loss_offset = self.config.dense_weight * self.criterion(
                             offset_pred, offset_gt
                         )
-                        loss = loss_coord + loss_offset + loss_angle + loss_ratio
+                        loss = loss_coord + loss_offset + loss_ratio
                 else:
                     offset_pred = self.net(input)
                     jt_uvd_pred = self.FM.offset2joint_softmax(
