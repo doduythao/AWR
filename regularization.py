@@ -92,10 +92,10 @@ pairs = [(0,1),
 
 def find_2_lim(data_points):
     sorted_data = np.sort(data_points)
-    return np.percentile(sorted_data, 0.5), np.percentile(sorted_data, 99.5)
+    return np.percentile(sorted_data, 0.05), np.percentile(sorted_data, 99.95)
 
 # to find "normal" range of bone ratios!
 for pair in pairs:
     ratio_data = data[pair[0]]/data[pair[1]]
     low, high = find_2_lim(ratio_data)
-    print(f'{low}:{high}')    
+    print(f'({low},{high}),')    
