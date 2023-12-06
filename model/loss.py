@@ -94,6 +94,7 @@ class AngleLoss(torch.nn.Module):
 
 
 # don't use RatioLoss for NYU, only Hands17
+# Result showed this is failure!
 class RatioLoss(torch.nn.Module):
     def __init__(self, dataset):
         super(RatioLoss, self).__init__()
