@@ -14,7 +14,7 @@ EPOCH = {
     'nyu': 40,
     'icvl': 40,
     'msra': 25,
-    'hands17': 20
+    'hands17': 15
 }
 class Config(object):
     gpu_id = 0
@@ -38,13 +38,13 @@ class Config(object):
     max_epoch = EPOCH[dataset]
     loss_type = 'MyL1Loss'
     dense_weight = 1.
-    coord_weight = 1.
+    coord_weight = 0.5
     angle_w = 0
-    ratio_w = 1.
+    ratio_w = 0
     kernel_size = 0.4 # 0.4 for hourglass and 1 for resnet
-    lr = 1e-4
-    optimizer = 'adam'
-    scheduler = 'auto'
+    lr = 1e-3
+    optimizer = 'sgd'
+    scheduler = 'step'
     step = STEP[dataset]
     weight_decay = 0
     print_freq = 100
